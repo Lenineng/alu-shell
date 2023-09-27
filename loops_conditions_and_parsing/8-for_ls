@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # script that displays  The content of the current directory, In a list format, Where only the part of the name after the first dash is displayed
 for file in *; do
-if [[ $file != .* ]]; then
-display_name=$(echo "$file" | cut -d '-' -f 2-)
-echo "display_name"
+if [[ ! $file == .* && $file == *-* ]]; then
+name_after_dash="${file#*-}"
+echo "$name_after_dash"
 fi
 done
