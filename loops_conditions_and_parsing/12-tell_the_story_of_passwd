@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # script that tells the story of the /etc/passwd file
-IFS=':'
-while read -r username password userid groupname homedir shell; do 
-echo "The user $username is part of the $userid gang, lives in $homedir and rides $shell. $userid's place is protected by the passcode $password, more info about the user here: $groupname"
+while IFS=":" read -r username _ userid groupid _ homedir shell; do 
+echo "The user $username is part of the $groupid gang, lives in $homedir and rides $shell. $userid's place is protected by the passcode x, more info about the user here: $username"
 done < /etc/passwd
