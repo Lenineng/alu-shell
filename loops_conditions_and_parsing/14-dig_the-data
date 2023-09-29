@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # script that groups visitors by IP and HTTP status code, and displays this data
 awk '{count[$1" "$9]++} END {for (entry in count) {print count[entry], entry}}' /path/to/apache.log | \
-	sort -nr | \
-	head -n 10 
+sort -nr | \
+head -n 10 
