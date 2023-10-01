@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # script that displays the PID, along with the process name, of processes whose name contain the word bash
-bash_pids=$(pgrep -a bash)
-while read -r line; do
-pid=$(echo "$line" | awk '{print $1}')
-process_name=$(echo "$line" | awk '{print $2}')
+proc_dirs=$(find /proc -maxdepth 1 -type d -name '[0-9]*')
+for dir in $proc_dirs; do
+process_name$(cat "$dir/cmdline" 2>/dev/null | tr -d '\0')
+if [[ "$process_name" == *bash* ]]; then
+pid=$(basename "$dir")
 echo "$pid $process_name"
-done <<< "bash_pids"
+fi
+done
