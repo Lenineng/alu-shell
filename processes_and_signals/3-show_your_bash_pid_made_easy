@@ -1,11 +1,3 @@
 #!/usr/bin/env bash
 # script that displays the PID, along with the process name, of processes whose name contain the word bash
-proc_dirs=$(find /proc -maxdepth 1 -type d -name '[0-9]*')
-script_pid=$$
-for dir in $proc_dirs; do
-process_name=$(cat "$dir/cmdline" 2>/dev/null | tr -d '\0')
-if [[ "$process_name" == *bash* && "$dir" != "/proc/$script_pid" ]]; then
-pid=$(basename "$dir")
-echo "$pid $process_name"
-fi
-done
+pgrep -flx ".*bash.*"
