@@ -1,39 +1,28 @@
 #!/usr/bin/env bash
 #manage
-MANAGE_SCRIPT="/path/to/manage_my_process"
-PID_FILE="/var/run/my_process.pid"
-start() {
-	if [ -f "$PID_FILE" ]; then
-	echo "manage_my_process started"
-	fi
-}
-stop () {
-	if [ -f "$PID_FILE" ]; then
-	kill "$(cat "$PID_FILE")"
-	rm "$PID_FILE"
-	echo "manage_my_process started"
+if [[ "$#" == "1" ]]; then
+if [[ "$1" == "start" ]]; then
+./manage_my_process &
+echo "$!" > /var/run/my_process.pid
+echo "manage_my_process started"
+elif [[ "$1" == "stop" ]]; then
+if test -f "/var/run/my_process.pid"; then
+kill "$(cat /var/run/my_process.pid)"
+fi
+rm /var/run/my_process.pid
+echo "manage_my_process stopped"
+elif [[ "$1" == "restart" ]]; then
+# stop program
+if test -f "/var/run/my_process.pid"; then
+kill "$(cat /var/run/my_process.pid)"
+fi
+# start program
+./manage_my_process &
+echo "$!" > /var/run/my_process.pid
+echo "manage_my_process restarted"
 else
-	echo "manage_my_process is not running."
-       	fi
-}
-restart() {
-	stop
-	start
-	echo "manage_my_process restarted"
-}
-case "$1" in
-	start)
-		start
-		;;
-	stop)
-		stop
-		;;
-	restart)
-		restart
-		;;
-	*)
-		echo "usage: $0 {start|stop|restart}"
-		exit 1
-		;;
-esac
-exit 0
+echo "usage: manage_my_process {start|stop|restart}"
+fi
+else
+echo "usage: manage_my_process {start|stop|restart}"
+fi
